@@ -6,92 +6,43 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
 
-export default function Login({ status, canResetPassword }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: false,
-    });
-
-    useEffect(() => {
-        return () => {
-            reset('password');
-        };
-    }, []);
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        post(route('login'));
-    };
+export default function Login() {
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
+            <Head title="Login" />
+                <div className='flex mx-auto p-4 px-6 bg-wl h-screen w-full xl:px-28 rounded-lg'>
+                    <div className='container flex justify-center items-center xl:flex xl:justify-between xl:items-center xl:flex-row'>
+                        <div className='flex flex-col items-center'>
+                            <h1 className=' text-xl font-bold text-wp mb-4'>Login</h1>    
+                            <div className='bg-ws p-6 w-full'>
+                                <div className='flex flex-col'>
+                                    <Label htmlFor="text" value="Name" className="text-wp mt-2">Username</Label>
+                                    <Input type="text" />
+                                    <Label htmlFor="password" value="Password" className="text-wp mt-2">Paswword</Label>
+                                    <Input type="password" />
+                                    <p className='text-sm mt-2 text-wp underline flex justify-end'><a href="">Forgot Password?</a></p>
+                                </div>
+                                <div className=''>
+                                    <Button variant="primary" className="mt-6" href={route('home')}>Create Account</Button>
+                                    <div className='flex flex-row items-center gap-1'>
+                                        <div class="border-b-2 border-wp w-full"></div>
+                                        <p>or</p>
+                                        <div class="border-b-2 border-wp w-full"></div>
+                                    </div>
+                                    <Button variant="outline" href={route('home')}>Google</Button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='hidden xl:block'>
+                            <p className='text-5xl font-bold text-wp max-w-[238px] xl:text-7xl xl:max-w-[525px]'>Already Have An Account? Come Back In!</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ms-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
-            </form>
         </GuestLayout>
     );
 }
